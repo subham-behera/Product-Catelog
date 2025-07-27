@@ -1,0 +1,75 @@
+[
+  {
+    "label": "Name",
+    "type": "text",
+    "placeholder": "Enter the product name",
+    "name": "name",
+    "required": true,
+    "min_length": 2
+  },
+  {
+    "label": "Description",
+    "type": "textarea",
+    "placeholder": "Enter a short description",
+    "name": "desc",
+    "required": true
+  },
+  {
+    "label": "Category",
+    "type": "text",
+    "placeholder": "Enter the product category",
+    "name": "category",
+    "required": true
+  },
+  {
+    "label": "Brand",
+    "type": "text",
+    "placeholder": "Enter the brand name",
+    "name": "brand",
+    "required": true
+  },
+  {
+    "label": "SKU",
+    "type": "text",
+    "placeholder": "Stock Keeping Unit",
+    "name": "sku",
+    "required": true
+  },
+  {
+    "label": "Price",
+    "type": "number",
+    "placeholder": "Enter the product price",
+    "name": "price",
+    "required": true,
+    "min": 0.01
+  },
+  {
+    "label": "Sale Price",
+    "type": "number",
+    "placeholder": "Optional sale price",
+    "name": "salePrice",
+    "required": false,
+    "min": 0.01
+  },
+  {
+    "label": "In Stock",
+    "type": "checkbox",
+    "name": "inStock",
+    "required": true
+  },
+  {
+    "label": "Quantity",
+    "type": "number",
+    "placeholder": "Available quantity",
+    "name": "quantity",
+    "required": true,
+    "min": 0
+  },
+  {
+    "label": "Image URL",
+    "type": "text",
+    "placeholder": "Link to product image",
+    "name": "imageUrl",
+    "required": true
+  }
+]

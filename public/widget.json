@@ -1,0 +1,71 @@
+[
+  {
+    "label": "Name",
+    "type": "text",
+    "placeholder": "e.g. Awesome T-Shirt",
+    "name": "name",
+    "required": true
+  },
+  {
+    "label": "Description",
+    "type": "textarea",
+    "placeholder": "Write a few sentences about the product",
+    "name": "desc",       
+    "required": false
+  },
+  {
+    "label": "Category",
+    "type": "text",
+    "placeholder": "e.g. Clothing",
+    "name": "category",
+    "required": true
+  },
+  {
+    "label": "Brand",
+    "type": "text",
+    "placeholder": "e.g. Nike",
+    "name": "brand",
+    "required": false
+  },
+  {
+    "label": "Image URL",
+    "type": "text",
+    "placeholder": "e.g., https://example.com/image.jpg",
+    "name": "imageUrl",   
+    "required": false
+  },
+  {
+    "label": "Price",
+    "type": "number",
+    "placeholder": "$0.00",
+    "name": "price",
+    "required": true
+  },
+  {
+    "label": "Sale Price", 
+    "type": "number",
+    "placeholder": "$0.00",
+    "name": "salePrice",  
+    "required": false
+  },
+  {
+    "label": "SKU (Stock Keeping Unit)",
+    "type": "text",
+    "placeholder": "e.g. ABC-123",
+    "name": "SKU",        
+    "required": false
+  },
+  {
+    "label": "Quantity",
+    "type": "number",
+    "placeholder": "0",
+    "name": "quantity",
+    "required": true
+  },
+  {
+    "label": "In Stock",
+    "type": "checkbox",
+    "name": "inStock",    
+    "required": false
+  }
+]

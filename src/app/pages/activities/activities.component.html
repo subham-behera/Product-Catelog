@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>SKUPoint</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
+      style='font-family: Inter, "Noto Sans", sans-serif;'
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        
+        <app-navbar></app-navbar>
+
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-[#121416] tracking-light text-[32px] font-bold leading-tight">
+                  Activity Log
+                </p>
+                <p class="text-[#6a7581] text-sm font-normal leading-normal">
+                  Track all changes made to the product catalog
+                </p>
+              </div>
+            </div>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-xl border border-[#dde0e3] bg-white">
+                <table class="flex-1">
+                  <thead>
+                    <tr class="bg-white">
+                      <th
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-120 px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal"
+                      >
+                        User
+                      </th>
+                      <th
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-240 px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal"
+                      >
+                        Action
+                      </th>
+                      <th
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-360 px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal"
+                      >
+                        Timestamp
+                      </th>
+                      <th
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-480 px-4 py-3 text-left text-[#121416] w-[400px] text-sm font-medium leading-normal"
+                      >
+                        Details
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let activity of activities" class="border-t border-t-[#dde0e3]">
+                      <td
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-120 h-[72px] px-4 py-2 w-[400px] text-[#121416] text-sm font-normal leading-normal"
+                      >
+                        {{ activity.name }}
+                      </td>
+                      <td
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-240 h-[72px] px-4 py-2 w-[400px] text-[#6a7581] text-sm font-normal leading-normal"
+                      >
+                        {{ activity.action }}
+                      </td>
+                      <td
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-360 h-[72px] px-4 py-2 w-[400px] text-[#6a7581] text-sm font-normal leading-normal"
+                      >
+                        {{ activity.timestamp }}
+                      </td>
+                      <td
+                        class="table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-480 h-[72px] px-4 py-2 w-[400px] text-[#6a7581] text-sm font-normal leading-normal"
+                      >
+                        {{ activity.details }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <style>
+                @container (max-width: 120px) {
+                  .table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-120 {
+                    display: none;
+                  }
+                }
+                @container (max-width: 240px) {
+                  .table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-240 {
+                    display: none;
+                  }
+                }
+                @container (max-width: 360px) {
+                  .table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-360 {
+                    display: none;
+                  }
+                }
+                @container (max-width: 480px) {
+                  .table-75ce61d3-b61e-4a56-a1f7-2e75ae6b0761-column-480 {
+                    display: none;
+                  }
+                }
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

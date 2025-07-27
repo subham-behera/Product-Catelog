@@ -1,0 +1,117 @@
+<app-navbar></app-navbar>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+  
+      <!-- Header -->
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <div class="flex min-w-72 flex-col gap-3">
+          <p class="text-[#111418] tracking-light text-[32px] font-bold leading-tight">New product</p>
+          <p class="text-[#60748a] text-sm font-normal leading-normal">This information will be displayed publicly so be careful what you share.</p>
+        </div>
+      </div>
+  
+      <!-- Section Title -->
+      <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">General information</h3>
+  
+      <!-- General Information Fields -->
+      <ng-container *ngFor="let field of fields">
+        <div *ngIf="['name', 'desc', 'category', 'brand'].includes(field.name)" class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label class="flex flex-col min-w-40 flex-1">
+            <p class="text-[#111418] text-base font-medium leading-normal pb-2">
+              {{ field.label }}<span *ngIf="field.required" class="text-red-500">*</span>
+            </p>
+  
+            <ng-container [ngSwitch]="field.type">
+              <input *ngSwitchCase="'text'"
+                [formControlName]="field.name"
+                [placeholder]="field.placeholder || ''"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#60748a] p-[15px] text-base font-normal leading-normal" />
+  
+              <textarea *ngSwitchCase="'textarea'"
+                [formControlName]="field.name"
+                [placeholder]="field.placeholder || ''"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] min-h-36 placeholder:text-[#60748a] p-[15px] text-base font-normal leading-normal"></textarea>
+            </ng-container>
+  
+            <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" class="text-red-500 text-sm mt-1">
+              <small *ngIf="form.get(field.name)?.errors?.['required']">{{field.label}} is required.</small>
+              <small *ngIf="form.get(field.name)?.errors?.['pattern']">Please enter a valid value.</small>
+            </div>
+          </label>
+        </div>
+      </ng-container>
+  
+      <!-- Media Section -->
+      <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Media</h3>
+      <div class="flex flex-col p-4">
+        <div class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-[#dbe0e6] px-6 py-14">
+          <div class="flex max-w-[480px] flex-col items-center gap-2">
+            <p class="text-[#111418] text-lg font-bold leading-tight text-center">Upload product images</p>
+            <p class="text-[#111418] text-sm font-normal text-center">We recommend using high-quality .jpg files less than 5MB each.</p>
+          </div>
+          <button type="button"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal">
+            <span class="truncate">Upload images</span>
+          </button>
+          <input *ngIf="form.get('imageUrl')" type="text" formControlName="imageUrl"
+            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-10 placeholder:text-[#60748a] p-[15px] text-sm font-normal leading-normal"
+            placeholder="Enter image URL" />
+        </div>
+      </div>
+  
+      <!-- Pricing Section -->
+      <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Pricing</h3>
+      <ng-container *ngFor="let field of fields">
+        <div *ngIf="['price', 'salePrice'].includes(field.name)" class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label class="flex flex-col min-w-40 flex-1">
+            <p class="text-[#111418] text-base font-medium leading-normal pb-2">
+              {{ field.label }}<span *ngIf="field.required" class="text-red-500">*</span>
+            </p>
+            <input [formControlName]="field.name"
+              [type]="field.type"
+              [placeholder]="field.placeholder || ''"
+              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#60748a] p-[15px] text-base font-normal leading-normal" />
+          </label>
+        </div>
+      </ng-container>
+  
+      <!-- Inventory Section -->
+      <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Inventory</h3>
+      <ng-container *ngFor="let field of fields">
+        <div *ngIf="['sku', 'quantity'].includes(field.name)" class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label class="flex flex-col min-w-40 flex-1">
+            <p class="text-[#111418] text-base font-medium leading-normal pb-2">{{ field.label }}<span *ngIf="field.required" class="text-red-500">*</span></p>
+            <input [formControlName]="field.name"
+              [type]="field.type"
+              [placeholder]="field.placeholder || ''"
+              class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#60748a] p-[15px] text-base font-normal leading-normal" />
+          </label>
+        </div>
+  
+        <div *ngIf="field.name === 'inStock'" class="flex max-w-[480px] flex-wrap items-center gap-2 px-4 py-3">
+          <input type="checkbox" [formControlName]="field.name" [id]="field.name"
+            class="form-checkbox h-4 w-4 text-[#0c77f2] border-[#dbe0e6] rounded">
+          <label [for]="field.name" class="text-[#111418] text-base font-medium leading-normal">{{ field.label }}</label>
+        </div>
+      </ng-container>
+  
+      <!-- Action Buttons -->
+      <div class="flex justify-stretch">
+        <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
+          <button type="button"
+            (click)="resetForm()"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">
+            <span class="truncate">Cancel</span>
+          </button>
+          <button type="submit"
+            [disabled]="form.invalid"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+            <span class="truncate">Create product</span>
+          </button>
+        </div>
+      </div>
+  
+    </div>
+  </form>
+  
