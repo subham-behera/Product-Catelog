@@ -26,7 +26,7 @@ export class AddProductComponent implements OnInit {
 
         if (field.required) {
             if (field.type === 'checkbox') {
-            validators.push(Validators.requiredTrue);  // require checkbox to be checked
+            validators.push(Validators.requiredTrue);  
             } else {
             validators.push(Validators.required);
             }
@@ -59,7 +59,7 @@ export class AddProductComponent implements OnInit {
             next: (response) => {
               console.log('Product created:', response);
               this.resetForm();
-              this.router.navigate(['/dashboard']); // redirect after successful submit
+              this.router.navigate(['/dashboard']);
             },
             error: (error) => {
               console.error('Error creating product:', error);

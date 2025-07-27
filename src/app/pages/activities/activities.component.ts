@@ -15,13 +15,8 @@ interface Activity {
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
-  // You need to add CommonModule and HttpClientModule to your imports for standalone components
-  // or import them in your AppModule if you're using NgModules.
-  // Assuming a standalone component setup for simplicity here.
-  // If you are using an NgModule, ensure HttpClientModule is imported in your AppModule
-  // and CommonModule is imported in the module where ActivityComponent is declared.
-  standalone: true, // Mark as standalone if not already
-  imports: [CommonModule,NavbarComponent], // Add CommonModule here
+  standalone: true, 
+  imports: [CommonModule,NavbarComponent],
 })
 export class ActivityComponent implements OnInit {
   activities: Activity[] = [];

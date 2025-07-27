@@ -1,88 +1,83 @@
-<div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
-  <div class="layout-container flex h-full grow flex-col">
-    
-    <app-navbar></app-navbar>
+<app-navbar></app-navbar>
 
-    <div class="px-40 flex flex-1 justify-center py-5">
-      <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-        <div class="flex flex-wrap justify-between gap-3 p-4">
-          <div class="flex min-w-72 flex-col gap-3">
-            <p class="text-[#111418] tracking-light text-[32px] font-bold leading-tight">Dashboard</p>
-            <p class="text-[#60748a] text-sm font-normal leading-normal">Overview of your product catalog and recent activities.</p>
-          </div>
+<div class="px-40 flex flex-1 justify-center py-5">
+  <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+    <div class="flex flex-wrap justify-between gap-3 p-4">
+      <div class="flex min-w-72 flex-col gap-3">
+        <p class="text-[#111418] tracking-light text-[32px] font-bold leading-tight">Dashboard</p>
+        <p class="text-[#60748a] text-sm font-normal leading-normal">Overview of your product catalog and recent activities.</p>
+      </div>
+    </div>
+    <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Key Metrics</h3>
+    <div class="flex flex-wrap gap-4 p-4">
+      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
+        <p class="text-[#111418] text-base font-medium leading-normal">Total Products</p>
+        <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">{{totalProducts}}</p>
+      </div>
+      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
+        <p class="text-[#111418] text-base font-medium leading-normal">Total Sales</p>
+        <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">₹{{totalSales}}</p>
+      </div>
+      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
+        <p class="text-[#111418] text-base font-medium leading-normal">Average Order Value</p>
+        <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">₹{{ averageOrderValue | number:'1.2-2' }}</p>
+      </div>
+    </div>
+    <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recent Updates</h3>
+    <div class="grid grid-cols-[40px_1fr] gap-x-2 px-4">
+      <div class="flex flex-col items-center gap-1 pt-3">
+        <div class="text-[#111418]" data-icon="Plus" data-size="24px" data-weight="regular">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+          </svg>
         </div>
-        <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Key Metrics</h3>
-        <div class="flex flex-wrap gap-4 p-4">
-          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
-            <p class="text-[#111418] text-base font-medium leading-normal">Total Products</p>
-            <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">{{totalProducts}}</p>
-          </div>
-          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
-            <p class="text-[#111418] text-base font-medium leading-normal">Total Sales</p>
-            <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">₹{{totalSales}}</p>
-          </div>
-          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 border border-[#dbe0e6]">
-            <p class="text-[#111418] text-base font-medium leading-normal">Average Order Value</p>
-            <p class="text-[#111418] tracking-light text-2xl font-bold leading-tight">₹{{ averageOrderValue | number:'1.2-2' }}</p>
-          </div>
+        <div class="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
+      </div>
+      <div class="flex flex-1 flex-col py-3">
+        <p class="text-[#111418] text-base font-medium leading-normal">New Product Added</p>
+        <p class="text-[#60748a] text-base font-normal leading-normal">Product: 'Eco-Friendly Water Bottle' added by Sarah</p>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <div class="w-[1.5px] bg-[#dbe0e6] h-2"></div>
+        <div class="text-[#111418]" data-icon="Check" data-size="24px" data-weight="regular">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+          </svg>
         </div>
-        <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Recent Updates</h3>
-        <div class="grid grid-cols-[40px_1fr] gap-x-2 px-4">
-          <div class="flex flex-col items-center gap-1 pt-3">
-            <div class="text-[#111418]" data-icon="Plus" data-size="24px" data-weight="regular">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </div>
-            <div class="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
-          </div>
-          <div class="flex flex-1 flex-col py-3">
-            <p class="text-[#111418] text-base font-medium leading-normal">New Product Added</p>
-            <p class="text-[#60748a] text-base font-normal leading-normal">Product: 'Eco-Friendly Water Bottle' added by Sarah</p>
-          </div>
-          <div class="flex flex-col items-center gap-1">
-            <div class="w-[1.5px] bg-[#dbe0e6] h-2"></div>
-            <div class="text-[#111418]" data-icon="Check" data-size="24px" data-weight="regular">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-              </svg>
-            </div>
-            <div class="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
-          </div>
-          <div class="flex flex-1 flex-col py-3">
-            <p class="text-[#111418] text-base font-medium leading-normal">Order Processed</p>
-            <p class="text-[#60748a] text-base font-normal leading-normal">Order #12345 processed for customer Alex</p>
-          </div>
-          <div class="flex flex-col items-center gap-1 pb-3">
-            <div class="w-[1.5px] bg-[#dbe0e6] h-2"></div>
-            <div class="text-[#111418]" data-icon="Package" data-size="24px" data-weight="regular">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          <div class="flex flex-1 flex-col py-3">
-            <p class="text-[#111418] text-base font-medium leading-normal">Inventory Updated</p>
-            <p class="text-[#60748a] text-base font-normal leading-normal">Inventory levels updated for 'Organic Cotton T-Shirt'</p>
-          </div>
+        <div class="w-[1.5px] bg-[#dbe0e6] h-2 grow"></div>
+      </div>
+      <div class="flex flex-1 flex-col py-3">
+        <p class="text-[#111418] text-base font-medium leading-normal">Order Processed</p>
+        <p class="text-[#60748a] text-base font-normal leading-normal">Order #12345 processed for customer Alex</p>
+      </div>
+      <div class="flex flex-col items-center gap-1 pb-3">
+        <div class="w-[1.5px] bg-[#dbe0e6] h-2"></div>
+        <div class="text-[#111418]" data-icon="Package" data-size="24px" data-weight="regular">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+            <path
+              d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
+            ></path>
+          </svg>
         </div>
-        <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Quick Actions</h3>
-        <div class="flex justify-stretch">
-          <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
-            <a href="/add-product"
-              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-            >
-              <span class="truncate">Add New Product</span>
-            </a>
-            <a href="product-list"
-              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]"
-            >
-              <span class="truncate">View All Products</span>
-            </a>
-          </div>
-        </div>
+      </div>
+      <div class="flex flex-1 flex-col py-3">
+        <p class="text-[#111418] text-base font-medium leading-normal">Inventory Updated</p>
+        <p class="text-[#60748a] text-base font-normal leading-normal">Inventory levels updated for 'Organic Cotton T-Shirt'</p>
+      </div>
+    </div>
+    <h3 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Quick Actions</h3>
+    <div class="flex justify-stretch">
+      <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
+        <a href="/add-product"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+        >
+          <span class="truncate">Add New Product</span>
+        </a>
+        <a href="product-list"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]"
+        >
+          <span class="truncate">View All Products</span>
+        </a>
       </div>
     </div>
   </div>

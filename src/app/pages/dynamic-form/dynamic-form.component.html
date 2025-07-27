@@ -97,19 +97,24 @@
       </ng-container>
   
       <!-- Action Buttons -->
-      <div class="flex justify-stretch">
-        <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
-          <button type="button"
-            (click)="resetForm()"
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">
-            <span class="truncate">Cancel</span>
-          </button>
-          <button type="submit"
-            [disabled]="form.invalid"
-            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em]">
-            <span class="truncate">Save</span>
-          </button>
-        </div>
+      <div class="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
+        <button type="button"
+          (click)="resetForm()"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">
+          <span class="truncate">Cancel</span>
+        </button>
+      
+        <button type="submit"
+          [disabled]="form.invalid"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#0c77f2] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+          <span class="truncate">Save</span>
+        </button>
+      
+        <button type="button"
+          (click)="onDelete()"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#dc2626] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+          <span class="truncate">Delete</span>
+        </button>
       </div>
   
     </div>

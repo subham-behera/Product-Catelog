@@ -19,7 +19,7 @@ export class DynamicFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router // ✅ Inject Router
+    private router: Router 
   ) {}
 
   ngOnInit() {
@@ -103,4 +103,32 @@ export class DynamicFormComponent implements OnInit {
     });
     this.form.reset(resetValues);
   }
+  onDelete() {
+    const productName = this.form.value.name;
+    if (!productName) {
+      alert('Please enter a product name to delete.');
+      return;
+    }
+  
+    const confirmed = confirm(`Are you sure you want to delete product "${productName}"?`);
+    if (!confirmed) return;
+  
+    this.http.delete(`http://127.0.0.1:8000/products/${productName}`).subscribe({
+      next: (response) => {
+        console.log('Product deleted:', response);
+        alert('Product deleted successfully.');
+        this.resetForm();
+        this.router.navigate(['/dashboard']); // Optional: navigate after delete
+      },
+      error: (error) => {
+        console.error('Error deleting product:', error);
+        if (error.status === 404) {
+          alert('Product not found.');
+        } else {
+          alert('Failed to delete product.');
+        }
+      }
+    });
+  }
+  
 }
