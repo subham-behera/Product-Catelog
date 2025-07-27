@@ -105,8 +105,9 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let product of paginatedProducts$ | async"
-                  class="border-t border-t-[#dbe0e6]"
+                *ngFor="let product of paginatedProducts$ | async"
+                class="border-t border-t-[#dbe0e6] cursor-pointer hover:bg-gray-100 transition-colors"
+                (click)="navigateToEdit(product.name)"
                 >
                   <td
                     class="table-d230c9b0-5e27-4ff8-a31f-f85eda9a0046-column-120 h-[72px] px-4 py-2 w-[400px] text-[#111418] text-sm font-medium leading-normal"

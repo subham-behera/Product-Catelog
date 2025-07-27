@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import widgetData from "../../../../public/schema.json";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
@@ -15,7 +16,7 @@ export class AddProductComponent implements OnInit {
     form!: FormGroup;
     fields = widgetData;
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {}
+    constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
 
     ngOnInit() {
         const formGroupConfig: any = {};
@@ -54,20 +55,21 @@ export class AddProductComponent implements OnInit {
 
     onSubmit() {
         if (this.form.valid) {
-        this.http.post('http://127.0.0.1:8000/products', this.form.value).subscribe({
+          this.http.post('http://127.0.0.1:8000/products', this.form.value).subscribe({
             next: (response) => {
-            console.log('Product created:', response);
-            this.resetForm();
+              console.log('Product created:', response);
+              this.resetForm();
+              this.router.navigate(['/dashboard']); // redirect after successful submit
             },
             error: (error) => {
-            console.error('Error creating product:', error);
+              console.error('Error creating product:', error);
             }
-        });
+          });
         } else {
-        console.log('Form not valid');
-        this.form.markAllAsTouched();
+          console.log('Form not valid');
+          this.form.markAllAsTouched();
         }
-    }
+      }      
 
     resetForm() {
         const resetValues: any = {};

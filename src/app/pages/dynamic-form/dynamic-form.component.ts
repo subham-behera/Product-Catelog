@@ -2,82 +2,105 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router'; // ✅ Import Router
 import widgetData from "../../../../public/schema.json";
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 
 @Component({
-    selector: 'app-dynamic-form',
-    standalone: true,
-    templateUrl: './dynamic-form.component.html',
-    imports: [CommonModule, ReactiveFormsModule, HttpClientModule,NavbarComponent]
+  selector: 'app-dynamic-form',
+  standalone: true,
+  templateUrl: './dynamic-form.component.html',
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NavbarComponent]
 })
 export class DynamicFormComponent implements OnInit {
-    form!: FormGroup;
-    fields = widgetData;
+  form!: FormGroup;
+  fields = widgetData;
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router // ✅ Inject Router
+  ) {}
 
-    ngOnInit() {
-        const formGroupConfig: any = {};
+  ngOnInit() {
+    const formGroupConfig: any = {};
 
-        this.fields.forEach(field => {
-        const validators = [];
+    this.fields.forEach(field => {
+      const validators = [];
 
-        if (field.required) {
-            if (field.type === 'checkbox') {
-            validators.push(Validators.requiredTrue);  // require checkbox to be checked
-            } else {
-            validators.push(Validators.required);
-            }
-        }
-
-        if (field.min_length) {
-            validators.push(Validators.minLength(field.min_length));
-        }
-
-        if (field.type === 'number') {
-            validators.push(Validators.pattern('^[0-9]+(\\.[0-9]+)?$'));
-            if (field.min !== undefined) {
-            validators.push(Validators.min(field.min));
-            }
-        }
-
+      if (field.required) {
         if (field.type === 'checkbox') {
-            formGroupConfig[field.name] = [false, validators];
+          validators.push(Validators.requiredTrue);
         } else {
-            formGroupConfig[field.name] = ['', validators];
+          validators.push(Validators.required);
         }
-        });
+      }
 
-        this.form = this.fb.group(formGroupConfig);
-    }
+      if (field.min_length) {
+        validators.push(Validators.minLength(field.min_length));
+      }
 
-    onSubmit() {
-        if (this.form.valid) {
-        this.http.post('http://127.0.0.1:8000/products', this.form.value).subscribe({
+      if (field.type === 'number') {
+        validators.push(Validators.pattern('^[0-9]+(\\.[0-9]+)?$'));
+        if (field.min !== undefined) {
+          validators.push(Validators.min(field.min));
+        }
+      }
+
+      if (field.type === 'checkbox') {
+        formGroupConfig[field.name] = [false, validators];
+      } else {
+        formGroupConfig[field.name] = ['', validators];
+      }
+    });
+
+    this.form = this.fb.group(formGroupConfig);
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const productName = this.form.value.name;
+
+      this.http.get(`http://127.0.0.1:8000/products/${productName}`).subscribe({
+        next: (existingProduct) => {
+          // Product found - proceed to update
+          this.http.put(`http://127.0.0.1:8000/products/${productName}`, this.form.value).subscribe({
             next: (response) => {
-            console.log('Product created:', response);
-            this.resetForm();
+              console.log('Product updated:', response);
+              alert('Product updated successfully.');
+              this.resetForm();
+              this.router.navigate(['/dashboard']); // ✅ Redirect after successful save
             },
             error: (error) => {
-            console.error('Error creating product:', error);
+              console.error('Error updating product:', error);
+              alert('Failed to update product.');
             }
-        });
-        } else {
-        console.log('Form not valid');
-        this.form.markAllAsTouched();
+          });
+        },
+        error: (error) => {
+          if (error.status === 404) {
+            alert('Product not found. Please create it first.');
+          } else {
+            console.error('Error checking product existence:', error);
+            alert('An unexpected error occurred.');
+          }
         }
+      });
+    } else {
+      console.log('Form not valid');
+      this.form.markAllAsTouched();
     }
+  }
 
-    resetForm() {
-        const resetValues: any = {};
-        this.fields.forEach(field => {
-        if (field.type === 'checkbox') {
-            resetValues[field.name] = false;
-        } else {
-            resetValues[field.name] = '';
-        }
-        });
-        this.form.reset(resetValues);
-    }
+  resetForm() {
+    const resetValues: any = {};
+    this.fields.forEach(field => {
+      if (field.type === 'checkbox') {
+        resetValues[field.name] = false;
+      } else {
+        resetValues[field.name] = '';
+      }
+    });
+    this.form.reset(resetValues);
+  }
 }

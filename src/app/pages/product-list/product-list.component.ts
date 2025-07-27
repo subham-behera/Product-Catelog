@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +25,7 @@ interface Product {
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   standalone: true,
-  imports: [CommonModule, NavbarComponent,FormsModule],
+  imports: [CommonModule, NavbarComponent, FormsModule],
 })
 export class ProductListComponent implements OnInit {
   private allProductsSubject = new BehaviorSubject<Product[]>([]);
@@ -38,7 +39,7 @@ export class ProductListComponent implements OnInit {
   selectedStatus: string | null = null;
   searchTerm: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.http.get<Product[]>('http://127.0.0.1:8000/products').subscribe((products) => {
@@ -51,17 +52,13 @@ export class ProductListComponent implements OnInit {
       this.currentPageSubject.asObservable(),
     ]).pipe(
       map(([products, currentPage]) => {
-        // Apply filters
-
         let filteredProducts = products;
 
-        // Filter by stock status
         if (this.selectedStatus !== null) {
           const inStock = this.selectedStatus === 'In Stock';
           filteredProducts = filteredProducts.filter((p) => p.inStock === inStock);
         }
 
-        // Filter by search term (name or category)
         if (this.searchTerm.trim().length > 0) {
           const lowerSearch = this.searchTerm.toLowerCase();
           filteredProducts = filteredProducts.filter(
@@ -73,7 +70,6 @@ export class ProductListComponent implements OnInit {
 
         this.calculateTotalPages(filteredProducts.length);
 
-        // Pagination slice
         const startIndex = (currentPage - 1) * this.itemsPerPage;
         return filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
       })
@@ -92,7 +88,6 @@ export class ProductListComponent implements OnInit {
   setStatusFilter(status: string | null): void {
     this.selectedStatus = status;
     this.currentPageSubject.next(1);
-    // Trigger update by re-emitting products (or trigger manually if needed)
     this.allProductsSubject.next(this.allProductsSubject.getValue());
   }
 
@@ -126,5 +121,9 @@ export class ProductListComponent implements OnInit {
 
   getPagesArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  navigateToEdit(name: string): void {
+    this.router.navigate(['/dynamic-form'], { queryParams: { name } });
   }
 }
