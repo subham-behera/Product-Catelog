@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
@@ -28,9 +28,7 @@ interface Product {
   imports: [CommonModule, NavbarComponent, FormsModule],
 })
 export class ProductListComponent implements OnInit {
-  private allProductsSubject = new BehaviorSubject<Product[]>([]);
-  paginatedProducts$: Observable<Product[]> | undefined;
-
+  paginatedProducts$: Observable<Product[]> = of([]);
   private currentPageSubject = new BehaviorSubject<number>(1);
   currentPage$ = this.currentPageSubject.asObservable();
   itemsPerPage = 5;
@@ -39,62 +37,65 @@ export class ProductListComponent implements OnInit {
   selectedStatus: string | null = null;
   searchTerm: string = '';
 
+  private allProducts: Product[] = [];
+
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.http.get<Product[]>('http://127.0.0.1:8000/products').subscribe((products) => {
-      this.allProductsSubject.next(products);
-      this.calculateTotalPages(products.length);
-    });
+    this.loadPage(this.currentPageSubject.value);
 
     this.paginatedProducts$ = combineLatest([
-      this.allProductsSubject.asObservable(),
-      this.currentPageSubject.asObservable(),
+      this.currentPage$,
     ]).pipe(
-      map(([products, currentPage]) => {
-        let filteredProducts = products;
+      switchMap(([page]) => this.fetchProductsFromServer(page)),
+      map((products) => {
+        this.allProducts = products;
 
+        let filtered = [...products];
         if (this.selectedStatus !== null) {
           const inStock = this.selectedStatus === 'In Stock';
-          filteredProducts = filteredProducts.filter((p) => p.inStock === inStock);
+          filtered = filtered.filter((p) => p.inStock === inStock);
         }
 
         if (this.searchTerm.trim().length > 0) {
-          const lowerSearch = this.searchTerm.toLowerCase();
-          filteredProducts = filteredProducts.filter(
+          const search = this.searchTerm.toLowerCase();
+          filtered = filtered.filter(
             (p) =>
-              p.name.toLowerCase().includes(lowerSearch) ||
-              p.category.toLowerCase().includes(lowerSearch)
+              p.name.toLowerCase().includes(search) ||
+              p.category.toLowerCase().includes(search)
           );
         }
 
-        this.calculateTotalPages(filteredProducts.length);
-
-        const startIndex = (currentPage - 1) * this.itemsPerPage;
-        return filteredProducts.slice(startIndex, startIndex + this.itemsPerPage);
+        return filtered;
       })
     );
   }
 
-  private calculateTotalPages(totalItems: number): void {
-    this.totalPages = Math.ceil(totalItems / this.itemsPerPage);
-    if (this.currentPageSubject.getValue() > this.totalPages && this.totalPages > 0) {
-      this.currentPageSubject.next(this.totalPages);
-    } else if (this.totalPages === 0 && this.currentPageSubject.getValue() !== 1) {
-      this.currentPageSubject.next(1);
+  fetchProductsFromServer(page: number): Observable<Product[]> {
+    const limit = this.itemsPerPage;
+    const url = `http://127.0.0.1:8000/products?page=${page}&limit=${limit}`;
+    return this.http.get<{ total: number; products: Product[] }>(url).pipe(
+      map((res) => {
+        this.totalPages = Math.ceil(res.total / this.itemsPerPage);
+        return res.products;
+      })
+    );
+  }
+
+  loadPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPageSubject.next(page);
     }
   }
 
   setStatusFilter(status: string | null): void {
     this.selectedStatus = status;
-    this.currentPageSubject.next(1);
-    this.allProductsSubject.next(this.allProductsSubject.getValue());
+    this.loadPage(1);
   }
 
   onSearchTermChange(value: string): void {
     this.searchTerm = value;
-    this.currentPageSubject.next(1);
-    this.allProductsSubject.next(this.allProductsSubject.getValue());
+    this.loadPage(1);
   }
 
   getProductAvailability(inStock: boolean): string {
@@ -102,21 +103,17 @@ export class ProductListComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPageSubject.next(page);
-    }
+    this.loadPage(page);
   }
 
   nextPage(): void {
-    if (this.currentPageSubject.getValue() < this.totalPages) {
-      this.currentPageSubject.next(this.currentPageSubject.getValue() + 1);
-    }
+    const current = this.currentPageSubject.value;
+    if (current < this.totalPages) this.loadPage(current + 1);
   }
 
   previousPage(): void {
-    if (this.currentPageSubject.getValue() > 1) {
-      this.currentPageSubject.next(this.currentPageSubject.getValue() - 1);
-    }
+    const current = this.currentPageSubject.value;
+    if (current > 1) this.loadPage(current - 1);
   }
 
   getPagesArray(): number[] {
